@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import Card from 'react-bootstrap/Card'
+import ListGroup from 'react-bootstrap/ListGroup'
+
 
 class App extends React.Component {
 
@@ -40,13 +43,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h3>City Explorer app</h3>
+        {/* <h3>City Explorer app</h3>
         <form onSubmit={this.getLocFun} >
           <input type="text" name='city' />
           <input type="submit" value='get city info' />
-        </form>
+        </form> */}
 
-        {this.state.showLocInfo &&
+        {/* {this.state.showLocInfo &&
           <>
             <p>City name: {this.state.searchQuery}</p>
             <p>latitude: {this.state.locationResult.lat}</p>
@@ -55,10 +58,31 @@ class App extends React.Component {
             <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationResult.lat},${this.state.locationResult.lon}&zoom=10`} alt="city" />
 
           </>
-        }
+        } */}
 
+  <form onSubmit={this.getLocFun} >
+          <input type="text" name='city' />
+          <input type="submit" value='get city info' />
+        </form>
+{this.state.showLocInfo &&
 
+    <Card style={{ width: '18rem' }}>
+  <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.locationResult.lat},${this.state.locationResult.lon}&zoom=10`} alt="city" />
+  <Card.Body>
+    <Card.Title>City Explorer app</Card.Title>
+  
+  </Card.Body>
+  <ListGroup className="list-group-flush">
+    <ListGroup>City name: {this.state.searchQuery}</ListGroup>
+    <ListGroup>latitude: {this.state.locationResult.lat}</ListGroup>
+    <ListGroup>longitude: {this.state.locationResult.lon}</ListGroup>
 
+  </ListGroup>
+
+  <Card.Body>
+  </Card.Body>
+</Card>
+}
       </div>
     )
   }
