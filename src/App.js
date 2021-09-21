@@ -23,7 +23,7 @@ class App extends React.Component {
     })
 
     try{    
-    let reqUrl = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+    let reqUrl = `${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
 
     let locResult = await axios.get(reqUrl);
   
