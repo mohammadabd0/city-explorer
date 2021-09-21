@@ -21,8 +21,8 @@ class App extends React.Component {
     await this.setState({
       searchQuery: event.target.city.value
     })
-// localhost:3005/weather?namecity=
 
+// localhost:3005/weather?namecity=
     try{    
     let reqUrl = `${process.env.REACT_APP_SERVER_LINK}/weather?namecity=${this.state.searchQuery}`;
 
@@ -33,7 +33,7 @@ class App extends React.Component {
 
 
     this.setState({
-      locationResult: locResult.data,
+      locationResult: locResult.data.length,
       showLocInfo: true,
       showerror:false
     })
@@ -60,15 +60,8 @@ render() {
         {this.state.showLocInfo &&
           <>
             <p>City name: {this.state.searchQuery}</p>
-            <p>date : {this.state.locationResult[0].date}</p>
-            <p>description : {this.state.locationResult[0].description} </p>
-            <p>date : {this.state.locationResult[1].date}</p>
-            <p>description : {this.state.locationResult[1].description} </p>
-            <p>date : {this.state.locationResult[2].date}</p>
-            <p>description : {this.state.locationResult[2].description} </p>
-            
-            <p></p>
-
+             <p>date : {this.state.locationResult.date}</p>
+            <p>description : {this.state.locationResult.description} </p>
 
           </>
         }
