@@ -11,7 +11,8 @@ class App extends React.Component {
     this.state = {
       locationResult: {},
       searchQuery: '',
-      showLocInfo: false
+      showLocInfo: false,
+      showerror:false
     }
   }
 
@@ -21,8 +22,7 @@ class App extends React.Component {
       searchQuery: e.target.city.value
     })
 
-    console.log('key',process.env.REACT_APP_LOCATIONIQ_KEY);
-    
+    try{    
     let reqUrl = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
 
     let locResult = await axios.get(reqUrl);
@@ -33,9 +33,16 @@ class App extends React.Component {
 
     this.setState({
       locationResult: locResult.data[0],
-      showLocInfo: true
+      showLocInfo: true,
+      showerror:false
     })
-
+  } catch{
+    console.log("error: Something went wrong.")
+    this.setState({
+      showerror:true,
+      showLocInfo: false
+    })
+  }
 
   }
 
