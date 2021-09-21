@@ -9,21 +9,22 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationResult: {},
+      locationResult: [],
       searchQuery: '',
       showLocInfo: false,
       showerror:false
     }
   }
 
-  getLocFun = async (e) => {
-    e.preventDefault();
+  getLocFun = async (event) => {
+    event.preventDefault();
     await this.setState({
       searchQuery: e.target.city.value
     })
+// localhost:3005/weather?namecity=
 
     try{    
-    let reqUrl = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+    let reqUrl = `${process.env.REACT_APP_LOCATIONIQ_KEY}/weather?namecity=${this.state.searchQuery}&format=json`;
 
     let locResult = await axios.get(reqUrl);
   
@@ -50,6 +51,27 @@ class App extends React.Component {
   render() {
     return (
       <div>
+           <h3>City Explorer app</h3>
+        <form onSubmit={this.getLocFun} >
+          <input type="text" name='city' />
+          <input type="submit" value='get city info' />
+        </form>
+
+        {this.state.showLocInfo &&
+          <>
+            <p>City name: {this.state.searchQuery}</p>
+            <p>latitude: {this.state.locationResult.lat}</p>
+            <p>longitude: {this.state.locationResult.lon} </p>
+
+
+          </>
+        }
+
+
+
+
+
+        {/* lab06 */}
         {/* <h3>City Explorer app</h3>
         <form onSubmit={this.getLocFun} >
           <input type="text" name='city' />
@@ -66,8 +88,8 @@ class App extends React.Component {
 
           </>
         } */}
-
-  <form onSubmit={this.getLocFun} >
+{/* lab06 */}
+  {/* <form onSubmit={this.getLocFun} >
           <input type="text" name='city' />
           <input type="submit" value='get city info' />
         </form>
@@ -89,7 +111,7 @@ class App extends React.Component {
   <Card.Body>
   </Card.Body>
 </Card>
-}
+} */}
       </div>
     )
   }
