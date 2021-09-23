@@ -1,4 +1,4 @@
-Name of feature: our api server 
+Name of feature: how to get data from 3rd api 
 
 Estimate of time needed to complete: _____5hour
 
