@@ -4,6 +4,9 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 
+import Weather from './component/Weather';
+import Movie from './component/Movie';
+
 class App extends React.Component {
 
   constructor(props) {
@@ -13,7 +16,9 @@ class App extends React.Component {
       searchQuery: '',
       showLocInfo: false,
       showerror:false,
-      weatherResult:[]
+      weatherResult:[],
+      movieResult:[]
+
     }
   }
 
@@ -23,10 +28,35 @@ class App extends React.Component {
       searchQuery: event.target.city.value
     })
 
-// localhost:3005/weather?namecity=
+// http://localhost:3005?city=
 
+
+ //////// locationResult
+ try{    
+  let Url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+
+  let locResult = await axios.get(Url);
+
+  console.log('asArray', locResult.data);
+
+
+
+  this.setState({
+    locationResult: locResult.data[0],
+    showLocInfo: true,
+    showerror:false
+  })
+} catch{
+  console.log("error: Something went wrong.")
+  this.setState({
+    showerror:true,
+    showLocInfo: false
+  })
+}
+
+////////// weatherdata
     try{    
-    let reqUrl = `${process.env.REACT_APP_SERVER_LINK}/weather?namecity=${this.state.searchQuery}`;
+    let reqUrl = `${process.env.REACT_APP_SERVER_LINK}/weather?city=${this.state.searchQuery}`;
 
     let weatherdata = await axios.get(reqUrl);
   
@@ -46,21 +76,22 @@ class App extends React.Component {
       showLocInfo: false
     })
   }
-  ////////
+ 
+  ////////// movedata
   try{    
-    let Url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+    let MovieUrl = `${process.env.REACT_APP_SERVER_LINK}/movies?city=${this.state.searchQuery}`;
 
-    let locResult = await axios.get(Url);
+    let moviedata = await axios.get(MovieUrl);
   
-    console.log('asArray', locResult.data);
 
 
 
     this.setState({
-      locationResult: locResult.data[0],
+      movieResult: moviedata.data,
       showLocInfo: true,
       showerror:false
     })
+    
   } catch{
     console.log("error: Something went wrong.")
     this.setState({
@@ -68,37 +99,13 @@ class App extends React.Component {
       showLocInfo: false
     })
   }
-  
 }
+
 
 
 render() {
   return (
     <div>
-           {/* <h3>City Explorer app</h3>
-        <form onSubmit={this.getLocFun} >
-          <input type="text" name='city' />
-          <input type="submit" value='get city info' />
-        </form>
-
-        {this.state.showLocInfo &&
-          <>
-          
-            <p>City name: {this.state.searchQuery}</p>
-             <p>date : {this.state.locationResult[0].date}</p>
-            <p>description : {this.state.locationResult[0].description} </p>
-            <p>date : {this.state.locationResult[1].date}</p>
-            <p>description : {this.state.locationResult[1].description} </p>
-            <p>date : {this.state.locationResult[2].date}</p>
-            <p>description : {this.state.locationResult[2].description} </p>
-           
-
-          </>
-        } */}
-
-
-
-
 
         {/* lab06 */}
         {/* <h3>City Explorer app</h3>
@@ -135,13 +142,22 @@ render() {
             <ListGroup.Item> City name: {this.state.searchQuery}</ListGroup.Item>
             <ListGroup.Item>latitude: {this.state.locationResult.lat}</ListGroup.Item>
             <ListGroup.Item> longitude: {this.state.locationResult.lon}</ListGroup.Item>
-            <ListGroup.Item>date : {this.state.weatherResult[0].date}
-              description : {this.state.weatherResult[0].description}</ListGroup.Item>
-              <ListGroup.Item>date : {this.state.weatherResult[1].date}
-              description : {this.state.weatherResult[1].description}</ListGroup.Item>
-              <ListGroup.Item>date : {this.state.weatherResult[2].date}
-              description : {this.state.weatherResult[2].description}</ListGroup.Item>
-            
+            <ListGroup.Item> days info</ListGroup.Item>
+  
+    {this.state.weatherResult.map(info => {
+     return (
+      <ListGroup.Item>
+    <Weather  weatherResult={info} />
+  </ListGroup.Item>
+    )})} 
+  
+  {this.state.movieResult.map(info => {
+     return (
+      <ListGroup.Item>
+    <Movie  movieResult={info} />
+  </ListGroup.Item>
+    )})} 
+
   </ListGroup>
 
   <Card.Body>
