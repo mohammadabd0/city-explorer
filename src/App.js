@@ -56,7 +56,7 @@ class App extends React.Component {
 
 ////////// weatherdata
     try{    
-    let reqUrl = `${process.env.REACT_APP_SERVER_LINK}/weather?city=${this.state.searchQuery}`;
+    let reqUrl = `https://city-weather33.herokuapp.com/weather?city=${this.state.searchQuery}`;
 
     let weatherdata = await axios.get(reqUrl);
   
@@ -79,7 +79,7 @@ class App extends React.Component {
  
   ////////// movedata
   try{    
-    let MovieUrl = `${process.env.REACT_APP_SERVER_LINK}/movies?city=${this.state.searchQuery}`;
+    let MovieUrl = `https://city-weather33.herokuapp.com/movies?city=${this.state.searchQuery}`;
 
     let moviedata = await axios.get(MovieUrl);
   
